@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snack Millières</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#fff8f0}
+.header{background:#ff8c42;color:white;padding:10px;text-align:center;font-size:32px;font-weight:bold}
+.main{display:grid;grid-template-columns:55% 45%;height:calc(100vh - 60px)}
+.left{padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{font-size:24px;border:none;border-radius:14px;padding:20px;background:#ffd6a8}
+.right{padding:10px}
+.total{font-size:64px;font-weight:bold;text-align:center}
+table{width:100%;border-collapse:collapse}
+td,th{border:1px solid #ccc;padding:6px}
+.action{font-size:24px;padding:12px;margin:4px}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7)}
+#box{background:white;width:420px;margin:80px auto;padding:20px;border-radius:12px;text-align:center}
+#received{font-size:32px;width:90%;padding:8px}
+</style>
+</head>
+<body>
+<div class="header">🍟 Snack Millières</div>
+<div class="main">
+<div class="left">
+<button class="btn" onclick="add('Frites',4)">🍟 Frites<br>4 €</button>
+<button class="btn" onclick="add('Saucisse',4)">🌭 Saucisse<br>4 €</button>
+<button class="btn" onclick="add('Merguez',5)">🌶️ Merguez<br>5 €</button>
+<button class="btn" onclick="add('Côte de porc',5)">🥩 Côte de porc<br>5 €</button>
+<button class="btn" onclick="add('Crêpe Nature',1)">🥞 Crêpe Nature<br>1 €</button>
+<button class="btn" onclick="add('Crêpe Nutella',1.5)">🍫 Crêpe Nutella<br>1,50 €</button>
+<button class="btn" onclick="add('12 Crêpes Nature',10)">📦 x12 Nature<br>10 €</button>
+<button class="btn" onclick="add('12 Crêpes Nutella',15)">📦 x12 Nutella<br>15 €</button>
+</div>
+
+<div class="right">
+<div class="total" id="total">0,00 €</div>
+<table>
+<thead><tr><th>Produit</th><th>Qté</th><th>Montant</th></tr></thead>
+<tbody id="ticket"></tbody>
+</table>
+<p>
+<button class="action" onclick="undo()">↩️ Annuler</button>
+<button class="action" onclick="encaisser()">✅ Encaisser</button>
+<button class="action" onclick="admin()">🔒 Admin</button>
+</p>
+<div><b>CA du jour :</b> <span id="ca">0,00 €</span></div>
+</div>
+</div>
+
+<div id="overlay">
+<div id="box">
+<h2>Encaissement</h2>
+<div>Total : <span id="due"></span></div><br>
+<input id="received" type="number" step="0.01" placeholder="Montant reçu"><br><br>
+<div id="change" style="font-size:40px;font-weight:bold"></div><br>
+<button class="action" onclick="valider()">Valider</button>
+<button class="action" onclick="closeBox()">Fermer</button>
+</div>
+</div>
+
+<script>
+let total=0, items={}, history=[];
+let ca=parseFloat(localStorage.getItem('sm_ca')||0);
+
+function eur(v){return v.toFixed(2).replace('.',',')+' €';}
+
+function refresh(){
+ document.getElementById('total').innerHTML=eur(total);
+ document.getElementById('ca').innerHTML=eur(ca);
+ let t=document.getElementById('ticket'); t.innerHTML='';
+ for(let k in items){
+   let d=items[k];
+   t.innerHTML += `<tr><td>${k}</td><td>${d.q}</td><td>${eur(d.m)}</td></tr>`;
+ }
+}
+
+function add(n,p){
+ total+=p;
+ history.push({n,p});
+ if(!items[n]) items[n]={q:0,m:0};
+ items[n].q++; items[n].m+=p;
+ refresh();
+}
+
+function undo(){
+ if(!history.length) return;
+ let x=history.pop();
+ total-=x.p;
+ items[x.n].q--; items[x.n].m-=x.p;
+ if(items[x.n].q<=0) delete items[x.n];
+ refresh();
+}
+
+function encaisser(){
+ if(total<=0) return;
+ document.getElementById('overlay').style.display='block';
+ document.getElementById('due').innerHTML=eur(total);
+ document.getElementById('received').value='';
+ document.getElementById('change').innerHTML='';
+}
+
+document.addEventListener('input',e=>{
+ if(e.target.id==='received'){
+   let r=parseFloat(e.target.value||0);
+   let m=r-total;
+   document.getElementById('change').innerHTML = m>=0 ? 'Monnaie : '+eur(m) : 'Montant insuffisant';
+ }
+});
+
+function valider(){
+ ca+=total;
+ localStorage.setItem('sm_ca',ca);
+ total=0; items={}; history=[];
+ closeBox(); refresh();
+}
+
+function closeBox(){document.getElementById('overlay').style.display='none';}
+
+function admin(){
+ let p=prompt('Mot de passe');
+ if(p!=='Motocross100%'){alert('Refusé');return;}
+ if(confirm('Remettre le CA à zéro ?')){
+   ca=0; localStorage.setItem('sm_ca','0'); refresh();
+ }
+}
+
+refresh();
+</script>
+</body>
+</html>
