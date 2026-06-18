@@ -1,1 +1,11 @@
+JSON
 
+{
+  "name": "Snack Millières",
+  "short_name": "Snack",
+  "display": "standalone",
+  "background_color": "#fff8f0",
+  "theme_color": "#ff8c42",
+  "start_url": "./",
+  "icons": []
+}
