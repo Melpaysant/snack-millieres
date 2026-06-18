@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<meta name="theme-color" content="#ff8c42">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Snack Millières</title>
@@ -20,6 +21,8 @@ td,th{border:1px solid #ccc;padding:6px}
 #received{font-size:32px;width:90%;padding:8px}
 </style>
 </head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff8c42">
 <body>
 <div class="header">🍟 Snack Millières</div>
 <div class="main">
@@ -127,6 +130,9 @@ function admin(){
 }
 
 refresh();
+ if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
 </script>
 </body>
 </html>
