@@ -167,9 +167,16 @@ function closeBox(){document.getElementById('overlay').style.display='none';}
 function admin(){
  let p=prompt('Mot de passe');
  if(p!=='Motocross100%'){alert('Refusé');return;}
- if(confirm('Remettre le CA à zéro ?')){
-   ca=0; localStorage.setItem('sm_ca','0'); refresh();
- }
+ if(confirm('Remettre le CA et les statistiques à zéro ?')){
+
+   ca = 0;
+   stats = {};
+
+   localStorage.setItem('sm_ca','0');
+   localStorage.setItem('sm_stats','{}');
+
+   refresh();
+}
 }
 
 refresh();
