@@ -66,6 +66,7 @@ td,th{border:1px solid #ccc;padding:6px}
 <script>
 let total=0, items={}, history=[];
 let ca=parseFloat(localStorage.getItem('sm_ca')||0);
+let stats = JSON.parse(localStorage.getItem('sm_stats') || '{}');
 
 function eur(v){return v.toFixed(2).replace('.',',')+' €';}
 
@@ -113,10 +114,33 @@ document.addEventListener('input',e=>{
 });
 
 function valider(){
- ca+=total;
- localStorage.setItem('sm_ca',ca);
- total=0; items={}; history=[];
- closeBox(); refresh();
+
+    // Mise à jour du CA
+    ca += total;
+    localStorage.setItem('sm_ca', ca);
+
+    // Mise à jour des statistiques par produit
+    for(let produit in items){
+
+        if(!stats[produit]){
+            stats[produit] = {
+                quantite: 0,
+                ca: 0
+            };
+        }
+
+        stats[produit].quantite += items[produit].q;
+        stats[produit].ca += items[produit].m;
+    }
+
+    localStorage.setItem('sm_stats', JSON.stringify(stats));
+
+    total = 0;
+    items = {};
+    history = [];
+
+    closeBox();
+    refresh();
 }
 
 function closeBox(){document.getElementById('overlay').style.display='none';}
