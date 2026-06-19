@@ -49,6 +49,11 @@ td,th{border:1px solid #ccc;padding:6px}
 <button class="action" onclick="admin()">🔒 Admin</button>
 </p>
 <div><b>CA du jour :</b> <span id="ca">0,00 €</span></div>
+<hr>
+
+<h3>📊 Statistiques des ventes</h3>
+
+<div id="stats"></div>
 </div>
 </div>
 
@@ -78,6 +83,18 @@ function refresh(){
    let d=items[k];
    t.innerHTML += `<tr><td>${k}</td><td>${d.q}</td><td>${eur(d.m)}</td></tr>`;
  }
+ let htmlStats = '';
+
+for(let produit in stats){
+
+    htmlStats +=
+        '<b>' + produit + '</b><br>' +
+        'Quantité : ' + stats[produit].quantite + '<br>' +
+        'CA : ' + eur(stats[produit].ca) + '<br><br>';
+}
+
+document.getElementById('stats').innerHTML =
+    htmlStats || 'Aucune vente';
 }
 
 function add(n,p){
