@@ -88,9 +88,11 @@ function refresh(){
 for(let produit in stats){
 
     htmlStats +=
-        '<b>' + produit + '</b><br>' +
-        'Quantité : ' + stats[produit].quantite + '<br>' +
-        'CA : ' + eur(stats[produit].ca) + '<br><br>';
+    '<div style="margin-bottom:10px;border-bottom:1px solid #ddd;padding-bottom:5px;">' +
+    '<b>' + produit + '</b><br>' +
+    'Qté : ' + stats[produit].quantite +
+    ' | CA : ' + eur(stats[produit].ca) +
+    '</div>';
 }
 
 document.getElementById('stats').innerHTML =
