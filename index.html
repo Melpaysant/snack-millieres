@@ -9,7 +9,12 @@
 body{font-family:Arial,sans-serif;margin:0;background:#fff8f0}
 .header{background:#ff8c42;color:white;padding:10px;text-align:center;font-size:32px;font-weight:bold}
 .main{display:grid;grid-template-columns:55% 45%;height:calc(100vh - 60px)}
-.left{padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.left{
+    padding:10px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:10px;
+}
 .btn{font-size:24px;border:none;border-radius:14px;padding:20px;background:#ffd6a8}
 .right{padding:10px}
 .total{font-size:64px;font-weight:bold;text-align:center}
@@ -19,10 +24,60 @@ td,th{border:1px solid #ccc;padding:6px}
 #overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7)}
 #box{background:white;width:420px;margin:80px auto;padding:20px;border-radius:12px;text-align:center}
 #received{font-size:32px;width:90%;padding:8px}
+@media (max-width: 768px){
+
+    .main{
+        display:block;
+        height:auto;
+    }
+
+    .left{
+        grid-template-columns:1fr;
+        padding:8px;
+    }
+
+    .right{
+        padding:8px;
+    }
+
+    .btn{
+        font-size:22px;
+        padding:18px;
+        width:100%;
+    }
+
+    .total{
+        font-size:48px;
+    }
+
+    .action{
+        width:100%;
+        font-size:20px;
+        margin:5px 0;
+    }
+
+    #box{
+        width:90%;
+        margin:40px auto;
+    }
+
+    #received{
+        width:95%;
+        font-size:28px;
+    }
+
+    table{
+        font-size:14px;
+    }
+
+    .header{
+        font-size:24px;
+    }
+}
 </style>
-</head>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff8c42">
+</head>
 <body>
 <div class="header">🍟 Snack Millières</div>
 <div class="main">
