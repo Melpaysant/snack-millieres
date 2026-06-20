@@ -73,6 +73,14 @@ td,th{border:1px solid #ccc;padding:6px}
         font-size:24px;
     }
 }
+    .encaisser{
+    background:#28a745;
+    color:white;
+    font-weight:bold;
+    border:none;
+    font-size:28px;
+    padding:16px;
+}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff8c42">
@@ -99,7 +107,7 @@ td,th{border:1px solid #ccc;padding:6px}
 </table>
 <p>
 <button class="action" onclick="undo()">↩️ Annuler</button>
-<button class="action" onclick="encaisser()">✅ Encaisser</button>
+<button class="action encaisser" onclick="encaisser()">✅ Encaisser</button>
 <button class="action" onclick="admin()">🔒 Admin</button>
 </p>
 <div><b>CA du jour :</b> <span id="ca">0,00 €</span></div>
