@@ -1,4 +1,4 @@
-const CACHE = "snack-millieres-v2";
+const CACHE = "snack-millieres-v3";
 
 self.addEventListener("install", event => {
   event.waitUntil(
